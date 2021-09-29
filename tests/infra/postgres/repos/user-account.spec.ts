@@ -1,34 +1,17 @@
-import { LoadUserAccountRepository } from '@/data/contracts/repos'
-import { newDb, IBackup } from 'pg-mem'
-import { Column, Entity, getRepository, PrimaryGeneratedColumn, Repository, getConnection } from 'typeorm'
+import { PostgresUser } from '@/infra/postgres/entities'
+import { PostgresUserAccountRepository } from '@/infra/postgres/repos/user-account'
+import { newDb, IBackup, IMemoryDb } from 'pg-mem'
+import { getRepository, Repository, getConnection } from 'typeorm'
 
-class PostgresUserAccountRepository implements LoadUserAccountRepository {
-  async load (params: LoadUserAccountRepository.Params): Promise<LoadUserAccountRepository.Result> {
-    const postgresUserRepo = getRepository(PostgresUser)
-    const postgresUser = await postgresUserRepo.findOne({ email: params.email })
+const makeFakeDb = async (entities?: any[]): Promise<IMemoryDb> => {
+  const db = newDb()
+  const connection = await db.adapters.createTypeormConnection({
+    type: 'postgres',
+    entities: entities ?? ['src/infra/postgres/entities/index.ts']
+  })
 
-    if (postgresUser !== undefined) {
-      return {
-        id: postgresUser.id.toString(),
-        name: postgresUser.name ?? undefined
-      }
-    }
-  }
-}
-
-@Entity({ name: 'usuarios' })
-class PostgresUser {
-  @PrimaryGeneratedColumn()
-  id!: number
-
-  @Column({ name: 'nome', nullable: true })
-  name?: string
-
-  @Column()
-  email!: string
-
-  @Column({ name: 'id_facebook', nullable: true })
-  facebookId?: string
+  await connection.synchronize()
+  return db
 }
 
 describe('PostgresUserAccountRepository', () => {
@@ -38,13 +21,7 @@ describe('PostgresUserAccountRepository', () => {
     let backup: IBackup
 
     beforeAll(async () => {
-      const db = newDb()
-      const connection = await db.adapters.createTypeormConnection({
-        type: 'postgres',
-        entities: [PostgresUser]
-      })
-
-      await connection.synchronize()
+      const db = await makeFakeDb([PostgresUser])
       backup = db.backup()
       postgresUserRepo = getRepository(PostgresUser)
     })
