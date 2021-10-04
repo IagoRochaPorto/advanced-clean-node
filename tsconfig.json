@@ -2,15 +2,15 @@
   "compilerOptions": {
     "incremental": true,
     "outDir": "dist",
-    "rootDirs": ["src", "tests"],
-    "target": "es2021",
+    "rootDirs": ["src"],
+    "target": "esNext",
     "sourceMap": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "module": "commonjs",
-    "moduleResolution": "node",
+    "module": "CommonJS",
+    "moduleResolution": "Node",
     "esModuleInterop": true,
-    "baseUrl": "src",
+    "baseUrl": "./src",
     "paths": {
       "@/*": ["*"],
       "@/tests/*": ["../tests/*"]

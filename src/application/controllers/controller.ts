@@ -2,7 +2,7 @@ import { badRequest, HttpResponse, serverError } from '../helpers'
 import { ValidationComposite, Validator } from '../validation'
 
 export abstract class Controller {
-  abstract perform (httpRequest: any): Promise<HttpResponse>
+  protected abstract perform (httpRequest: any): Promise<HttpResponse>
 
   async handle (httpRequest: any): Promise<HttpResponse> {
     try {
