@@ -1,5 +1,6 @@
 import './config/module-alias'
-import { env, app } from '@/main/config'
+import { env } from '@/main/config/env'
+import { app } from '@/main/config/app'
 
 import 'reflect-metadata'
 
