@@ -9,8 +9,8 @@ type SaveResult = SaveFromFacebookAccountRepository.Result
 
 export class PostgresUserAccountRepository implements LoadUserAccountRepository, SaveFromFacebookAccountRepository {
   private readonly postgresUserRepo = getRepository(PostgresUser)
-  async load (params: LoadParams): Promise<LoadResult> {
-    const postgresUser = await this.postgresUserRepo.findOne({ email: params.email })
+  async load ({ email }: LoadParams): Promise<LoadResult> {
+    const postgresUser = await this.postgresUserRepo.findOne({ email })
 
     if (postgresUser !== undefined) {
       return {
@@ -20,24 +20,17 @@ export class PostgresUserAccountRepository implements LoadUserAccountRepository,
     }
   }
 
-  async saveWithFacebook (params: SaveParams): Promise<SaveResult> {
-    let id: string
+  async saveWithFacebook ({ id, name, email, facebookId }: SaveParams): Promise<SaveResult> {
+    let resultId: string
 
-    if (params.id === undefined) {
-      const postgresUser = await this.postgresUserRepo.save({
-        email: params.email,
-        name: params.name,
-        facebookId: params.facebookId
-      })
-      id = postgresUser.id.toString()
+    if (id === undefined) {
+      const postgresUser = await this.postgresUserRepo.save({ email, name, facebookId })
+      resultId = postgresUser.id.toString()
     } else {
-      id = params.id
-      await this.postgresUserRepo.update({ id: parseInt(params.id) }, {
-        name: params.name,
-        facebookId: params.facebookId
-      })
+      resultId = id
+      await this.postgresUserRepo.update({ id: parseInt(id) }, { name, facebookId })
     }
 
-    return { id }
+    return { id: resultId }
   }
 }
