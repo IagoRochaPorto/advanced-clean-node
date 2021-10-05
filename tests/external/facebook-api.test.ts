@@ -12,7 +12,7 @@ describe('Facebook API integration tests', () => {
   })
 
   it('should return a Facebook User if token is valid', async () => {
-    const facebookUser = await sut.loadUser({ token: 'EAAfQsKkZAsm0BAIxeWZCKLkZBEEPLNJ4lEZBZBY4TmYCdRmmbwZA4Ni94whyYoImtlWJ7ZC64xIkY2WB6kHDAS88IKeFb6nHvaPY8GX3ZAbdH4I5ZAas4G5gUPFQ3LPbWgru4hIPvLbhMcFvzdKJEZB3t4nCqkzMJLI9NhbHs1Sw4hZAZCFgsSNyiYCBhrXGEiGvVa5OvXMZAo8wQTwZDZD' })
+    const facebookUser = await sut.loadUser({ token: 'EAAfQsKkZAsm0BAEJbZB29ZBfU163mOwqNTwG2ERF5mU5KkQXLS0VNA9oa1xKCx6TEVdmMRz56LuBy1yrfKc7XZCeD2OUmLmgjlo5ZAgvuJzlvdfZASsUA0z5x3oCvbXepXb2nL5XbdJ6J3wsLgzEIlcX1x7eX43e6sf4wdUMKPSnVHKdhAhTTo5udZBOZC1otLJGI7CcMQLAlMYAmNQeeTf7' })
     expect(facebookUser).toEqual({
       facebookId: '107865394999287',
       email: 'open_jieaywa_user@tfbnw.net',

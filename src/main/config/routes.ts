@@ -3,6 +3,6 @@ import { loginRouter } from '@/main/routes'
 
 export const setupRoutes = (app: Express): void => {
   const router = Router()
-  router.use(loginRouter)
+  loginRouter(router)
   app.use('/api', router)
 }
