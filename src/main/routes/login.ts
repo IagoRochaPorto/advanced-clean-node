@@ -1,7 +1,7 @@
 import { Router } from 'express'
+import { makeFacebookLoginController } from '../factories/controllers'
+import { makeExpressRouter } from '../factories/http'
 
 export const loginRouter = (router: Router): void => {
-  router.post('/api/login/facebook', (req, res) => {
-    res.send({ data: 'any_data' })
-  })
+  router.post('/api/login/facebook', makeExpressRouter(makeFacebookLoginController()).adapt)
 }
